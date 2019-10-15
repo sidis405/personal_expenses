@@ -5,8 +5,9 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function delete;
 
-  TransactionList({@required this.transactions});
+  TransactionList({@required this.transactions, @required this.delete});
 
   @override
   Widget build(BuildContext context) {
@@ -17,38 +18,24 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (context, index) {
                 var transaction = transactions.reversed.elementAt(index);
                 return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                            color: Theme.of(context).primaryColorLight,
-                            width: 1,
-                          )),
-                          padding: EdgeInsets.all(5),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          child: Text(
-                            "€ ${transaction.amount.toStringAsFixed(2)}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Theme.of(context).primaryColorLight),
-                          )),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            transaction.title,
-                            style: Theme.of(context).textTheme.title,
-                          ),
-                          Text(
-                            DateFormat('d MMMM y H:m').format(transaction.date),
-                            style: TextStyle(color: Colors.grey),
-                          )
-                        ],
-                      ),
-                    ],
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                        radius: 30,
+                        child: FittedBox(
+                            child: Text(
+                                "€ ${transaction.amount.toStringAsFixed(2)}"))),
+                    title: Text(
+                      transaction.title,
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    subtitle: Text(DateFormat.yMMMd().format(transaction.date)),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => delete(transaction.id),
+                    ),
                   ),
                 );
               },

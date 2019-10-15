@@ -40,12 +40,12 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.all(10),
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: _groupedTransactions.map((item) {
+          children: _groupedTransactions.reversed.map((item) {
             return Flexible(
               fit: FlexFit.tight,
               child: ChartBar(

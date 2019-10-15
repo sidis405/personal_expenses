@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
               title: TextStyle(
                   fontFamily: 'OpenSans',
                   fontSize: 16,
-                  fontWeight: FontWeight.bold)),
+                  fontWeight: FontWeight.bold),
+              button: TextStyle(color: Colors.white)),
           appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
                   title: TextStyle(fontFamily: 'OpenSans', fontSize: 18)))),
@@ -36,39 +37,39 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
+  List<Transaction> _transactions = [
     Transaction(
         id: "t1",
         title: "Test Driven Laravel",
         amount: 150.89,
         date: DateTime.now()),
     Transaction(
-        id: "t1",
+        id: "t2",
         title: "Flutter courses",
         amount: 40.12,
         date: DateTime.now()),
     Transaction(
-        id: "t2",
+        id: "t3",
         title: "Laravel Internals Course",
         amount: 60.21,
         date: DateTime.now()),
     Transaction(
-        id: "t3",
+        id: "t4",
         title: "PHP Design Patterns book",
         amount: 50.55,
         date: DateTime.now()),
     Transaction(
-        id: "t1",
+        id: "t5",
         title: "Philip K. Dick Vol.3",
         amount: 20.82,
         date: DateTime.now()),
     Transaction(
-        id: "t2",
+        id: "t6",
         title: "Refactoring To Collections",
         amount: 90.29,
         date: DateTime.now()),
     Transaction(
-        id: "t3",
+        id: "t7",
         title: "PHP Data Structures",
         amount: 52.55,
         date: DateTime.now()),
@@ -81,12 +82,17 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addTransaction(String title, double amount) {
+  void _deleteTrasaction(String transactionId)
+  {
+    setState(() => _transactions.removeWhere((el) => el.id == transactionId));
+  }
+
+  void _addTransaction(String title, double amount, DateTime date) {
     final newTransaction = new Transaction(
         id: DateTime.now().toString(),
         title: title,
         amount: amount,
-        date: DateTime.now());
+        date: date);
 
     setState(() {
       _transactions.add(newTransaction);
@@ -121,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Chart(recentTransactions: _recentTransactions),
-          TransactionList(transactions: _transactions),
+          TransactionList(transactions: _transactions, delete: _deleteTrasaction),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
